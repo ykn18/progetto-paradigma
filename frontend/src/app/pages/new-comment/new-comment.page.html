@@ -1,0 +1,27 @@
+<ion-header>
+    <ion-toolbar>
+      <ion-title>new-comment</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="dark" (click)="dismiss()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content [scrollY]="false">
+  
+    <ion-item>
+
+      <ion-label position="stacked">Write your commment</ion-label> 
+      <ion-textarea [(ngModel)]="newTweet.tweet"></ion-textarea>
+    </ion-item>
+  
+  </ion-content>
+  
+  <ion-footer>
+    <ion-toolbar>
+      <ion-button expand="full" [disabled]="isDataInvalid()" (click)="commentTweet()">Comment</ion-button>
+    </ion-toolbar>
+  </ion-footer>
+  
