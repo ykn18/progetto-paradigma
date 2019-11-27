@@ -7,9 +7,9 @@ const Tweet = require('../models/tweet');
 const autenticationMiddleware = require('../middlewares/auth');
 const { checkValidation } = require('../middlewares/validation');
 
-
+//TO DO: ONLY PARENTLESS (?) TWEETS
 router.get('/', function(req, res, next) {
-  Tweet.find().populate("_author", "-password").exec(function(err, tweets){
+  Tweet.find({parent:{$exists:false}}).populate("_author", "-password").exec(function(err, tweets){
     if (err) return res.status(500).json({error: err});
     res.json(tweets);
   });
@@ -116,17 +116,32 @@ router.delete('/:id', autenticationMiddleware.isAuth, function(req, res, next) {
       });
     }
     if (tweet.parent) {
-      Tweet.updateOne({_id:tweet.parent}, {$pull:{comments:tweet._id}});
+      Tweet.updateOne({_id:tweet.parent}, {$pull:{comments:tweet._id}}).exec(function(err){
+        if(err) {
+          return res.status(500).json({error: err})
+        }
+        Tweet.remove({_id: req.params.id}, function(err) {
+          if(err) {
+            return res.status(500).json({error: err})
+          }
+          res.json({message: 'Tweet successfully deleted'})
+        });
+      });
     }
     else {
-      Tweet.deleteMany({parent:tweet._id});
+      Tweet.deleteMany({parent:tweet._id}).exec(function(err){
+        if(err) {
+          return res.status(500).json({error: err})
+        }
+        Tweet.remove({_id: req.params.id}, function(err) {
+          if(err) {
+            return res.status(500).json({error: err})
+          }
+          res.json({message: 'Tweet successfully deleted'})
+        });
+      });
     }
-    Tweet.remove({_id: req.params.id}, function(err) {
-      if(err) {
-        return res.status(500).json({error: err})
-      }
-      res.json({message: 'Tweet successfully deleted'})
-    });
+    
   });
 });
 
