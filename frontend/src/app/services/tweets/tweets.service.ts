@@ -58,49 +58,49 @@ export class TweetsService {
   }
 
   //GET ALL COMMENTS
-  async getComments(idTweet : string){
+  async getComments(idTweet : string) {
     const headerOptions = this.httpOptions.headers.append('Authorization', `Bearer ${this.auth.userToken}`);
-    return this.http.get<Tweet[]>(`${environment.API_URL}/tweets/${idTweet}`,{
+    return this.http.get<Tweet[]>(`${environment.API_URL}/tweets/${idTweet}`, {
       headers: headerOptions
     }).toPromise();
     }
 
   //PUSH A LIKE
-  async postLike(idTweet: string){
+  async postLike(idTweet: string) {
     const headerOptions = this.httpOptions.headers.append('Authorization', `Bearer ${this.auth.userToken}`);
-    return this.http.post<any>(`${environment.API_URL}/tweets/${idTweet}/like`,{
+    return this.http.post<any>(`${environment.API_URL}/tweets/${idTweet}/like`, {}, {
       headers: headerOptions
     }).toPromise();
   }
 
   //DELETE A LIKE
-  async deleteLike(idTweet : string){
+  async deleteLike(idTweet : string) {
     const headerOptions = this.httpOptions.headers.append('Authorization', `Bearer ${this.auth.userToken}`);
-    return this.http.delete<any>(`${environment.API_URL}/tweets/${idTweet}/like`,{
+    return this.http.delete<any>(`${environment.API_URL}/tweets/${idTweet}/like`, {
       headers: headerOptions
     }).toPromise();
   }
 
     //GET ALL FAVORITES
-  async getFavorites(){
+  async getFavorites() {
     const headerOptions = this.httpOptions.headers.append('Authorization', `Bearer ${this.auth.userToken}`);
-      return this.http.get<Tweet[]>(`${environment.API_URL}/favorites`,{
+      return this.http.get<Tweet[]>(`${environment.API_URL}/favorites`, {
       headers: headerOptions
       }).toPromise();
       }
 
   //ADD TWEET TO FAVORITES
-  async addFavorite(idTweet : string){
+  async addFavorite(idTweet : string) {
     const headerOptions = this.httpOptions.headers.append('Authorization', `Bearer ${this.auth.userToken}`);
-    return this.http.post<any>(`${environment.API_URL}/favorites/${idTweet}`,{
+    return this.http.post<any>(`${environment.API_URL}/favorites/${idTweet}`, {
       headers: headerOptions
     }).toPromise();
   }
 
   //DELETE TWEET FROM FAVORITES
-  async deleteFavorite(idTweet : string){
+  async deleteFavorite(idTweet : string) {
     const headerOptions = this.httpOptions.headers.append('Authorization', `Bearer ${this.auth.userToken}`);
-    return this.http.delete<any>(`${environment.API_URL}/favorites/${idTweet}`,{
+    return this.http.delete<any>(`${environment.API_URL}/favorites/${idTweet}`, {
       headers: headerOptions
     }).toPromise();
   }

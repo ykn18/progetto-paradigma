@@ -179,15 +179,32 @@ export class TweetsPage implements OnInit {
   }
 
   hasLike(tweet: Tweet) {
-    return tweet.likes.includes(this.auth.me._id);
+    for (let like of tweet.likes) {
+      if(like._id != this.auth.me._id) {
+        return false;
+      }
+      else {
+        return true;
+      }
+    }
   }
 
-  onLike(tweet: Tweet) {
-    if(!tweet.likes.includes(this.auth.me._id)) {
-      this.tweetsService.postLike(tweet._id);
+  async onLike(tweet: Tweet) {
+    if(tweet.likes.length > 0) {
+      for (let like of tweet.likes) {
+        if(like._id != this.auth.me._id) {
+          this.tweetsService.postLike(tweet._id);
+          break;
+        }
+        else {
+          this.tweetsService.deleteLike(tweet._id);
+          break;
+        }
+      }
     }
     else {
-      this.tweetsService.deleteLike(tweet._id);
+      this.tweetsService.postLike(tweet._id);
     }
+    await this.getTweets();
   }
 }

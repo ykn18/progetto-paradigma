@@ -25,7 +25,7 @@
             <p class="user-deleted">User deleted</p>
           </ng-template>
           <ion-button (click)="onLike(tweet)">
-            <ion-icon name="heart" [color]="hasLike(tweet) ? 'warning' : 'medium'"></ion-icon>
+            <ion-icon name="heart" [color]="hasLike(tweet) ? 'danger' : 'medium'"></ion-icon>
             &nbsp;{{ getLikes(tweet) }}
           </ion-button>
           <ion-icon name="star" [color]="like_bool ? 'warning' : 'medium'" ></ion-icon>
