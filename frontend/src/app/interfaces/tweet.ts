@@ -11,4 +11,5 @@ export interface Tweet {
     tweet: string;
     _author: User;
     likes: User[];
+    comments: Tweet[];
 }
