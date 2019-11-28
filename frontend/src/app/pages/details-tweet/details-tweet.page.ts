@@ -16,7 +16,6 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 export class DetailsTweetPage implements OnInit {
   tweet : Tweet;
   comments: Tweet[] = [];
-  like_bool : boolean = true;
   newComment = {} as NewTweet;
   idParentTweet : string;
 
@@ -97,27 +96,60 @@ export class DetailsTweetPage implements OnInit {
   getAuthor(tweet: Tweet): string {
 
     if (this.isMyTweet(tweet)) {
-      console.log("you");
       return 'You';
     } else {
-      console.log("else");
       return tweet._author.name + ' ' + tweet._author.surname;
     }
   }
 
-  onLike() {
-    this.like_bool = !this.like_bool;
-  }
-
-  hasLike(tweet: Tweet) {
+  hasLike(tweet) {
+    let bool : boolean;
     if(tweet.likes.length > 0) {
       for (let like of tweet.likes) {
-        return (like._id != this.auth.me._id) ? false : true;
+        if(like != this.auth.me._id){
+          bool = false;
+        }else{
+          return true;
+        }
       }
+      return bool;
     }
     else {
       return false;
     }
+  }
+
+  async onLike(tweet){
+    if (this.hasLike(tweet)){
+      this.tweetsService.deleteLike(tweet._id);
+    }
+    else{
+      this.tweetsService.postLike(tweet._id);
+    }
+    await this.getComments();
+  }
+  /*async onLike(tweet) {
+    if(tweet.likes.length > 0) {
+      for (let like of tweet.likes) {
+        console.log(like)
+        if(like != this.auth.me._id) {
+          this.tweetsService.postLike(tweet._id);
+          break;
+        }
+        else {
+          this.tweetsService.deleteLike(tweet._id);
+          break;
+        }
+      }
+    }
+    else {
+      this.tweetsService.postLike(tweet._id);
+    }
+    await this.getComments();
+  }*/
+
+  getLikes(tweet: Tweet) {
+    return tweet.likes.length;
   }
 
 

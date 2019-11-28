@@ -180,35 +180,56 @@ export class TweetsPage implements OnInit {
     return tweet.likes.length;
   }
 
-  hasLike(tweet: Tweet) {
+  hasLike(tweet) {
+    let bool : boolean;
     if(tweet.likes.length > 0) {
-      for (let like of tweet.likes) {
-        return (like._id != this.auth.me._id) ? false : true;
+      for (let user of tweet.likes) {
+        if(user._id != this.auth.me._id){
+          bool = false;
+        }else{
+          return true;
+        }
       }
+      return bool;
     }
     else {
       return false;
     }
   }
 
-  async onLike(tweet: Tweet) {
+  async onLike(tweet){
+    if (this.hasLike(tweet)){
+      this.tweetsService.deleteLike(tweet._id);
+    }
+    else{
+      this.tweetsService.postLike(tweet._id);
+    }
+    await this.getTweets();
+  }
+
+  /*async onLike(tweet) {
     if(tweet.likes.length > 0) {
       for (let like of tweet.likes) {
+        console.log(like)
+        console.log(this.auth.me._id)
         if(like._id != this.auth.me._id) {
+          console.log("like")
           this.tweetsService.postLike(tweet._id);
           break;
         }
         else {
+          console.log("unlike")
           this.tweetsService.deleteLike(tweet._id);
           break;
         }
       }
     }
     else {
+      console.log("like")
       this.tweetsService.postLike(tweet._id);
     }
     await this.getTweets();
-  }
+  }*/
 
 
   async filter(){

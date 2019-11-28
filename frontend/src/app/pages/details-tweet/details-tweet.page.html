@@ -32,7 +32,10 @@
             <ng-template #userDeleted>
               <p class="user-deleted">User deleted</p>
             </ng-template>
-            <ion-icon name="heart" [color]="hasLike(tweet) ? 'danger' : 'medium'" (click)="onLike()"></ion-icon>
+            <ion-button (click)="onLike(comment)">
+              <ion-icon name="heart" [color]="hasLike(comment) ? 'danger' : 'medium'"></ion-icon>
+              &nbsp;{{ getLikes(comment) }}
+            </ion-button>
         </ion-label>
         <ion-note slot="end">{{ comment.created_at | date : 'short' }}</ion-note>
       </ion-item>
