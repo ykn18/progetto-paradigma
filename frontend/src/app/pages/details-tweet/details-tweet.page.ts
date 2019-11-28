@@ -62,9 +62,8 @@ export class DetailsTweetPage implements OnInit {
 
       await this.uniLoader.show();
       this.newComment.parent = this.idParentTweet;
-      console.log(this.newComment)
       await this.tweetsService.createComment(this.newComment);
-      await this.dismiss();
+
     } catch (err) {
       await this.toastService.show({
         message: err.message,
@@ -72,6 +71,8 @@ export class DetailsTweetPage implements OnInit {
       });
 
     }
+    await this.getComments();
+    this.newComment.tweet = "";
     await this.uniLoader.dismiss();
   }
 
@@ -88,9 +89,7 @@ export class DetailsTweetPage implements OnInit {
     if (tweet._author) {
       return tweet._author._id === this.auth.me._id;
     }
-
     return false;
-
   }
 
   getAuthor(tweet: Tweet): string {
@@ -102,55 +101,30 @@ export class DetailsTweetPage implements OnInit {
     }
   }
 
-  hasLike(tweet) {
-    let bool : boolean;
-    if(tweet.likes.length > 0) {
-      for (let like of tweet.likes) {
-        if(like != this.auth.me._id){
-          bool = false;
-        }else{
-          return true;
-        }
-      }
-      return bool;
-    }
-    else {
-      return false;
-    }
-  }
-
-  async onLike(tweet){
-    if (this.hasLike(tweet)){
-      this.tweetsService.deleteLike(tweet._id);
-    }
-    else{
-      this.tweetsService.postLike(tweet._id);
-    }
-    await this.getComments();
-  }
-  /*async onLike(tweet) {
-    if(tweet.likes.length > 0) {
-      for (let like of tweet.likes) {
-        console.log(like)
-        if(like != this.auth.me._id) {
-          this.tweetsService.postLike(tweet._id);
-          break;
-        }
-        else {
-          this.tweetsService.deleteLike(tweet._id);
-          break;
-        }
-      }
-    }
-    else {
-      this.tweetsService.postLike(tweet._id);
-    }
-    await this.getComments();
-  }*/
-
   getLikes(tweet: Tweet) {
     return tweet.likes.length;
   }
 
+  hasLike(tweet) {
+    let found = true;
+    if (tweet.likes.length > 0) {
+      for (let user of tweet.likes) {
+        if (user._id == this.auth.me._id) {
+          return found;
+        }
+      }
+    }
+    return !found;
+  }
 
+  async onLike(tweet){
+    if (this.hasLike(tweet)) {
+      await this.tweetsService.deleteLike(tweet._id);
+    }
+    else {
+      await this.tweetsService.postLike(tweet._id);
+    }
+    await this.getComments();
+  }
+  
 }

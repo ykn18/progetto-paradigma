@@ -15,7 +15,7 @@
 
       <ion-item>
         <ion-label>
-          <h2>{{tweet.tweet}}</h2>
+          <h2>{{ tweet.tweet }}</h2>
   
           <p *ngIf="tweet._author; else userDeleted" class="user" [class.me]="canEdit(tweet)">
             {{ getAuthor(tweet) }} 
@@ -24,14 +24,15 @@
           <ng-template #userDeleted>
             <p class="user-deleted">User deleted</p>
           </ng-template>
-          <ion-button (click)="onLike(tweet)">
+          <ion-chip outline color="dark" (click)="onLike(tweet)">
             <ion-icon name="heart" [color]="hasLike(tweet) ? 'danger' : 'medium'"></ion-icon>
-            &nbsp;{{ getLikes(tweet) }}
-          </ion-button>
-          <ion-button (click)="onPrefer(tweet)">
+            <ion-label>{{ getLikes(tweet) }}</ion-label>
+          </ion-chip>
+          <ion-chip outline color="dark" (click)="onPrefer(tweet)">
+            <ion-label></ion-label>
             <ion-icon name="star" [color]="hasPrefer(tweet) ? 'warning' : 'medium'"></ion-icon>
-          </ion-button>
-      
+            <ion-label></ion-label>
+          </ion-chip>
         </ion-label>
         <ion-note slot="end">{{ tweet.created_at | date : 'short' }}</ion-note>
       </ion-item>

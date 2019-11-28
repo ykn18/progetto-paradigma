@@ -11,9 +11,9 @@
 
   <ion-card>
     <ion-card-header>
-      <ion-card-title>{{tweet.tweet}}</ion-card-title>
-      <ion-card-subtitle>{{tweet._author.name}} {{tweet._author.surname}}</ion-card-subtitle>
-      <ion-card-subtitle>{{tweet.created_at | date : 'short'}}</ion-card-subtitle>
+      <ion-card-title>{{ tweet.tweet }}</ion-card-title>
+      <ion-card-subtitle>{{ tweet._author.name }} {{ tweet._author.surname }}</ion-card-subtitle>
+      <ion-card-subtitle>{{ tweet.created_at | date : 'short' }}</ion-card-subtitle>
     </ion-card-header>
   </ion-card>
   
@@ -46,7 +46,7 @@
 <ion-footer>
   <ion-toolbar>
     <ion-item>
-      <ion-textarea placeholder="Enter comment.." [(ngModel)]="newComment.tweet"></ion-textarea>
+      <ion-textarea placeholder="Enter comment..." [(ngModel)]="newComment.tweet"></ion-textarea>
       <ion-button expand="full" [disabled]="isDataInvalid()" (click)="commentTweet()">
         <ion-icon slot="icon-only" name="send"></ion-icon>
       </ion-button>

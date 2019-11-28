@@ -81,7 +81,7 @@ export class TweetsService {
     }).toPromise();
   }
 
-    //GET ALL FAVORITES
+  //GET ALL FAVORITES
   async getFavorites() {
     const headerOptions = this.httpOptions.headers.append('Authorization', `Bearer ${this.auth.userToken}`);
     return this.http.get<Tweet[]>(`${environment.API_URL}/favorites`, {
@@ -105,10 +105,9 @@ export class TweetsService {
     }).toPromise();
   }
 
-    //GET HASHTAG FILTER
-    async getHashtags(hashtag: string){
-      return this.http.get<Tweet[]>(`${environment.API_URL}/tweets/hashtag/${hashtag}`).toPromise();
-    }
+  //GET HASHTAG FILTER
+  async getHashtags(hashtag: string){
+    return this.http.get<Tweet[]>(`${environment.API_URL}/tweets/hashtag/${hashtag}`).toPromise();
+  }
       
-
 }

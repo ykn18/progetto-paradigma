@@ -15,7 +15,7 @@ import { DetailsTweetPage } from '../details-tweet/details-tweet.page';
   styleUrls: ['./tweets.page.scss'],
 })
 export class TweetsPage implements OnInit {
-  favoritiesTweet : Tweet[];
+  favoritiesTweet : Tweet[] = [];
   tweets: Tweet[] = [];
   like_bool : boolean = false;
   search : string = "";
@@ -194,10 +194,10 @@ export class TweetsPage implements OnInit {
 
   async onLike(tweet) {
     if (this.hasLike(tweet)){
-      this.tweetsService.deleteLike(tweet._id);
+      await this.tweetsService.deleteLike(tweet._id);
     }
     else {
-      this.tweetsService.postLike(tweet._id);
+      await this.tweetsService.postLike(tweet._id);
     }
     await this.getTweets();
   }
