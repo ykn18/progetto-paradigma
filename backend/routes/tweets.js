@@ -44,7 +44,10 @@ router.post('/',autenticationMiddleware.isAuth, [
   newTweet._author = res.locals.authInfo.userId;
   
   var regexp = /#(?:[a-zA-Z0-9])+/g;
-  newTweet.hashtags = newTweet.tweet.match(regexp).map(x => x.substr(1));
+  matches = newTweet.tweet.match(regexp)
+  if (matches){
+  newTweet.hashtags = matches.map(x => x.substr(1));
+}  
 
    
   if (req.body.parent){
@@ -103,11 +106,12 @@ router.put('/:id', autenticationMiddleware.isAuth, [
       });
     }
     tweet.tweet = req.body.tweet;
-    
-    
-    var regexp = /#(?:[a-zA-Z0-9])+/g;
-    tweet.hashtags = req.body.tweet.match(regexp).map(x => x.substr(1));
 
+    var regexp = /#(?:[a-zA-Z0-9])+/g;
+    matches = req.body.tweet.match(regexp)
+    if (matches){
+    tweet.hashtags = matches.map(x => x.substr(1));
+    }
 
     tweet.save(function(err) {
       if(err) return res.status(500).json({error: err});
