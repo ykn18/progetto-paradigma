@@ -18,6 +18,7 @@ export class TweetsPage implements OnInit {
   favoritiesTweet : Tweet[];
   tweets: Tweet[] = [];
   like_bool : boolean = false;
+  search : string = "";
 
   constructor(
     private tweetsService: TweetsService,
@@ -209,6 +210,17 @@ export class TweetsPage implements OnInit {
     await this.getTweets();
   }
 
+
+  async filter(){
+    if (this.search.length >= 3)
+    {
+      this.tweets = await this.tweetsService.getHashtags(this.search);
+    }
+    else if (this.search == ""){
+      this.tweets = await this.tweetsService.getTweets();
+    }
+  }
+
   hasPrefer(tweet : Tweet){    
     for (let favorite of  this.favoritiesTweet){
       if(favorite._id == tweet._id){
@@ -227,4 +239,5 @@ export class TweetsPage implements OnInit {
     }
     await this.getTweets();
   }
+
 }

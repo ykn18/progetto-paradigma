@@ -8,7 +8,9 @@ const autenticationMiddleware = require('../middlewares/auth');
 const { checkValidation } = require('../middlewares/validation');
 
 router.get('/', autenticationMiddleware.isAuth, function(req, res, next) {
-  User.find({_id:res.locals.authInfo.userId}, "-password").populate("favorites")
+  User.find({_id:res.locals.authInfo.userId}, "-password").populate({path:"favorites", populate : {
+    path:"_author", select:"name surname"
+  }})
   .exec(function(err, users){
     if (err) return res.status(500).json({error: err});
     return res.json(users[0].favorites);
