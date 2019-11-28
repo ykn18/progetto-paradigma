@@ -7,9 +7,9 @@ const Tweet = require('../models/tweet');
 const autenticationMiddleware = require('../middlewares/auth');
 const { checkValidation } = require('../middlewares/validation');
 
-//TO DO: ONLY PARENTLESS (?) TWEETS
 router.get('/', function(req, res, next) {
-  Tweet.find({parent:{$exists:false}}).populate("_author", "-password").exec(function(err, tweets){
+  Tweet.find({parent:{$exists:false}}).populate("_author", "-password")
+  .populate("likes ", "-password").exec(function(err, tweets){
     if (err) return res.status(500).json({error: err});
     res.json(tweets);
   });
@@ -18,6 +18,7 @@ router.get('/', function(req, res, next) {
 router.get('/:id', function(req, res, next) {
   Tweet.findOne({_id: req.params.id})
     .populate("_author", "-password")
+    .populate("likes", "-password")
     .populate({path:"comments", populate : {
       path:"_author", select:"name surname"
     }})
@@ -147,4 +148,55 @@ router.delete('/:id', autenticationMiddleware.isAuth, function(req, res, next) {
   });
 });
 
+
+router.post('/:id/like',autenticationMiddleware.isAuth, checkValidation, function(req, res, next) {
+  Tweet.findOne({_id: req.params.id}).exec(function(err, tweet) {
+    if (err) {
+      return res.status(500).json({
+        error: err,
+        message: "Error reading the tweet"
+      });
+    }
+    if (!tweet) {
+      return res.status(404).json({
+        message: "Tweet not found"
+      })
+    }
+    if (tweet._author.toString() !== res.locals.authInfo.userId) {
+      return res.status(401).json({
+        error: "Unauthorized",
+        message: "You are not the owner of the resource"
+      });
+    }
+    Tweet.findOneAndUpdate({_id:req.params.id}, {$addToSet:{likes:res.locals.authInfo.userId}}).exec(function(err, r){
+      res.status(201).json({"msg":"done"});
+    })
+  });
+});
+
+
+router.delete('/:id/like',autenticationMiddleware.isAuth, checkValidation, function(req, res, next) {
+  Tweet.findOne({_id: req.params.id}).exec(function(err, tweet) {
+    if (err) {
+      return res.status(500).json({
+        error: err,
+        message: "Error reading the tweet"
+      });
+    }
+    if (!tweet) {
+      return res.status(404).json({
+        message: "Tweet not found"
+      })
+    }
+    if (tweet._author.toString() !== res.locals.authInfo.userId) {
+      return res.status(401).json({
+        error: "Unauthorized",
+        message: "You are not the owner of the resource"
+      });
+    }
+    Tweet.updateOne({_id:req.params.id}, {$pull:{likes:res.locals.authInfo.userId}}).exec(function(err, r){
+      res.status(201).json({"msg":"done"});
+    })
+  });
+});
 module.exports = router;
