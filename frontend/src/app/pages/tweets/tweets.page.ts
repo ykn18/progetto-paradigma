@@ -179,13 +179,13 @@ export class TweetsPage implements OnInit {
   }
 
   hasLike(tweet: Tweet) {
-    for (let like of tweet.likes) {
-      if(like._id != this.auth.me._id) {
-        return false;
+    if(tweet.likes.length > 0) {
+      for (let like of tweet.likes) {
+        return (like._id != this.auth.me._id) ? false : true;
       }
-      else {
-        return true;
-      }
+    }
+    else {
+      return false;
     }
   }
 
