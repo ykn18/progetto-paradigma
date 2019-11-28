@@ -12,7 +12,7 @@
   <ion-card>
     <ion-card-header>
       <ion-card-title>{{ tweet.tweet }}</ion-card-title>
-      <ion-card-subtitle>{{ tweet._author.name }} {{ tweet._author.surname }}</ion-card-subtitle>
+      <ion-card-subtitle class="user">{{ tweet._author.name }} {{ tweet._author.surname }}</ion-card-subtitle>
       <ion-card-subtitle>{{ tweet.created_at | date : 'short' }}</ion-card-subtitle>
     </ion-card-header>
   </ion-card>
@@ -32,17 +32,17 @@
             <ng-template #userDeleted>
               <p class="user-deleted">User deleted</p>
             </ng-template>
-            <ion-button (click)="onLike(comment)">
+            <p>{{ comment.created_at | date : 'short' }}</p>
+            <ion-chip [color]="hasLike(comment) ? 'danger' : 'ligth'" (click)="onLike(comment)">
               <ion-icon name="heart" [color]="hasLike(comment) ? 'danger' : 'medium'"></ion-icon>
-              &nbsp;{{ getLikes(comment) }}
-            </ion-button>
+              <ion-label>{{ getLikes(comment) }}</ion-label>
+            </ion-chip>
         </ion-label>
-        <ion-note slot="end">{{ comment.created_at | date : 'short' }}</ion-note>
       </ion-item>
     </ion-item-sliding>
   </ion-list>
 </ion-content>
-  
+
 <ion-footer>
   <ion-toolbar>
     <ion-item>

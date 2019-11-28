@@ -13,6 +13,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
   templateUrl: './details-tweet.page.html',
   styleUrls: ['./details-tweet.page.scss'],
 })
+
 export class DetailsTweetPage implements OnInit {
   tweet : Tweet;
   comments: Tweet[] = [];

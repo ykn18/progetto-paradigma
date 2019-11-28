@@ -3,7 +3,7 @@
     <ion-title>tweets</ion-title>
   </ion-toolbar>
   <ion-toolbar>
-    <ion-searchbar [(ngModel)]="search" debounce="250" placeholder="#Hashtag" (ionChange)="filter()"></ion-searchbar>
+    <ion-searchbar [(ngModel)]="search" debounce="250" placeholder="Insert #hashtag..." (ionChange)="filter()"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
@@ -24,17 +24,17 @@
           <ng-template #userDeleted>
             <p class="user-deleted">User deleted</p>
           </ng-template>
-          <ion-chip outline color="dark" (click)="onLike(tweet)">
+          <p>{{ tweet.created_at | date : 'short' }}</p>
+          <ion-chip [color]="hasLike(tweet) ? 'danger' : 'ligth'" (click)="onLike(tweet)">
             <ion-icon name="heart" [color]="hasLike(tweet) ? 'danger' : 'medium'"></ion-icon>
             <ion-label>{{ getLikes(tweet) }}</ion-label>
           </ion-chip>
-          <ion-chip outline color="dark" (click)="onPrefer(tweet)">
+          <ion-chip [color]="hasPrefer(tweet) ? 'warning' : 'ligth'" (click)="onPrefer(tweet)">
             <ion-label></ion-label>
             <ion-icon name="star" [color]="hasPrefer(tweet) ? 'warning' : 'medium'"></ion-icon>
             <ion-label></ion-label>
           </ion-chip>
         </ion-label>
-        <ion-note slot="end">{{ tweet.created_at | date : 'short' }}</ion-note>
       </ion-item>
   
       <ion-item-options *ngIf="canEdit(tweet); else otherTweets" side="end">

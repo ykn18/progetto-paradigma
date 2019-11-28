@@ -2,9 +2,6 @@
   <ion-toolbar>
     <ion-title>favorites</ion-title>
   </ion-toolbar>
-  <ion-toolbar>
-    <ion-searchbar></ion-searchbar>
-  </ion-toolbar>
 </ion-header>
 
 <ion-content>
@@ -15,16 +12,16 @@
 
       <ion-item>
         <ion-label>
-          <h2>{{favorite.tweet}}</h2>
+          <h2>{{ favorite.tweet }}</h2>
   
           <p *ngIf="favorite._author; else userDeleted" class="user">
             {{ getAuthor(favorite) }} 
           </p>
           <ng-template #userDeleted>
             <p class="user-deleted">User deleted</p>
-          </ng-template>        
+          </ng-template>
+          <p>{{ favorite.created_at | date : 'short' }}</p>
         </ion-label>
-        <ion-note slot="end">{{ favorite.created_at | date : 'short' }}</ion-note>
       </ion-item>
   
     </ion-item-sliding>
