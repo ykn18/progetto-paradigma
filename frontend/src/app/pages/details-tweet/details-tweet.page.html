@@ -18,13 +18,13 @@
           <h2>{{ comment.tweet }}</h2>
         
             <p *ngIf="comment._author; else userDeleted" class="user" [class.me]="isMyTweet(comment)">
-            {{ this.getAuthor(comment) }} 
+            {{ getAuthor(comment) }} 
               <ion-icon *ngIf="isMyTweet(comment)" name="heart" color="danger-tint"></ion-icon> 
             </p>
             <ng-template #userDeleted>
               <p class="user-deleted">User deleted</p>
             </ng-template>
-            <ion-icon name="heart" [color]="hasLike()" (click)="onLike()"></ion-icon>
+            <ion-icon name="heart" [color]="hasLike(tweet) ? 'danger' : 'medium'" (click)="onLike()"></ion-icon>
         </ion-label>
         <ion-note slot="end">{{ comment.created_at | date : 'short' }}</ion-note>
       </ion-item>

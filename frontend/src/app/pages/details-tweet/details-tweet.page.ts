@@ -111,5 +111,16 @@ export class DetailsTweetPage implements OnInit {
     this.like_bool = !this.like_bool;
   }
 
+  hasLike(tweet: Tweet) {
+    if(tweet.likes.length > 0) {
+      for (let like of tweet.likes) {
+        return (like._id != this.auth.me._id) ? false : true;
+      }
+    }
+    else {
+      return false;
+    }
+  }
+
 
 }
