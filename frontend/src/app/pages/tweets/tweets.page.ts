@@ -31,7 +31,6 @@ export class TweetsPage implements OnInit {
 
     // Quando carico la pagina, riempio il mio array di Tweets
     await this.getTweets();
-    this.favoritiesTweet =  await this.tweetsService.getFavorites();
 
   }
 
@@ -44,6 +43,7 @@ export class TweetsPage implements OnInit {
 
       // Popolo il mio array di oggetti 'Tweet' con quanto restituito dalla chiamata API
       this.tweets = await this.tweetsService.getTweets();
+      this.favoritiesTweet =  await this.tweetsService.getFavorites();
 
       // La chiamata è andata a buon fine, dunque rimuovo il loader
       await this.uniLoader.dismiss();
@@ -209,14 +209,13 @@ export class TweetsPage implements OnInit {
     await this.getTweets();
   }
 
-  async hasPrefer(tweet : Tweet){    
+  hasPrefer(tweet : Tweet){    
     for (let favorite of  this.favoritiesTweet){
       if(favorite._id == tweet._id){
         return true;
       }
     }
     return false;
-
   }
 
 }
