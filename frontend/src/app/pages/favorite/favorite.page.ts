@@ -22,7 +22,7 @@ export class FavoritePage implements OnInit {
   ) { }
 
   async ngOnInit() {
-    //await this.getFavorites()
+    await this.getFavorites()
   }
 
   async getFavorites(){

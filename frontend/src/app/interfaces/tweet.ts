@@ -11,5 +11,6 @@ export interface Tweet {
     _id: string;
     tweet: string;
     _author: User;
+    comments: Tweet[];
 }
 
