@@ -181,58 +181,28 @@ export class TweetsPage implements OnInit {
   }
 
   hasLike(tweet) {
-    let bool : boolean;
-    if(tweet.likes.length > 0) {
+    let found = true;
+    if (tweet.likes.length > 0) {
       for (let user of tweet.likes) {
-        if(user._id != this.auth.me._id){
-          bool = false;
-        }else{
-          return true;
+        if (user._id == this.auth.me._id) {
+          return found;
         }
       }
-      return bool;
     }
-    else {
-      return false;
-    }
+    return !found;
   }
 
-  async onLike(tweet){
+  async onLike(tweet) {
     if (this.hasLike(tweet)){
       this.tweetsService.deleteLike(tweet._id);
     }
-    else{
+    else {
       this.tweetsService.postLike(tweet._id);
     }
     await this.getTweets();
   }
 
-  /*async onLike(tweet) {
-    if(tweet.likes.length > 0) {
-      for (let like of tweet.likes) {
-        console.log(like)
-        console.log(this.auth.me._id)
-        if(like._id != this.auth.me._id) {
-          console.log("like")
-          this.tweetsService.postLike(tweet._id);
-          break;
-        }
-        else {
-          console.log("unlike")
-          this.tweetsService.deleteLike(tweet._id);
-          break;
-        }
-      }
-    }
-    else {
-      console.log("like")
-      this.tweetsService.postLike(tweet._id);
-    }
-    await this.getTweets();
-  }*/
-
-
-  async filter(){
+  async filter() {
     if (this.search.length >= 3)
     {
       this.tweets = await this.tweetsService.getHashtags(this.search);
@@ -242,20 +212,20 @@ export class TweetsPage implements OnInit {
     }
   }
 
-  hasPrefer(tweet : Tweet){    
-    for (let favorite of  this.favoritiesTweet){
-      if(favorite._id == tweet._id){
+  hasPrefer(tweet: Tweet) {    
+    for (let favorite of this.favoritiesTweet) {
+      if (favorite._id == tweet._id) {
         return true;
       }
     }
     return false;
   }
 
-  async onPrefer(tweet : Tweet){
-    if(this.hasPrefer(tweet)){
+  async onPrefer(tweet: Tweet) {
+    if (this.hasPrefer(tweet)) {
       await this.tweetsService.deleteFavorite(tweet._id);
     }
-    else{
+    else {
       await this.tweetsService.addFavorite(tweet._id);
     }
     await this.getTweets();
