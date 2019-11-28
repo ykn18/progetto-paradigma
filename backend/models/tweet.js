@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const tweetSchema = mongoose.Schema({
     _author: {type: mongoose.Schema.Types.ObjectId, required: true, index: true, ref: 'User'},
-    tweet: {type: String, minlenght: 1, maxlenght: 280},
+    tweet: {type: String, minlenght: 2, maxlenght: 280},
     created_at: {type: Date, default: Date.now()},
     
     comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Tweet' }],
