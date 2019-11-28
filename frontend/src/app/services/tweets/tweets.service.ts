@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Tweet, NewTweet } from 'src/app/interfaces/tweet';
+import { Tweet, NewTweet, Like } from 'src/app/interfaces/tweet';
 import { AuthService } from '../auth/auth.service';
 
 @Injectable({
@@ -59,8 +59,26 @@ export class TweetsService {
   }
 
   //GET ALL COMMENTS
-  async getComments(idTweet){
-    return this.http.get<Tweet[]>(`${environment.API_URL}/tweets/${idTweet}`).toPromise();
+  async getComments(idTweet : string){
+    const headerOptions = this.httpOptions.headers.append('Authorization', `Bearer ${this.auth.userToken}`);
+    return this.http.get<Tweet[]>(`${environment.API_URL}/tweets/${idTweet}`,{
+      headers: headerOptions
+    }).toPromise();
     }
 
+  //PUSH A LIKE
+  async postLike(idTweet: string){
+    const headerOptions = this.httpOptions.headers.append('Authorization', `Bearer ${this.auth.userToken}`);
+    return this.http.post<any>(`${environment.API_URL}/tweet/${idTweet}/like`,{
+      headers: headerOptions
+    }).toPromise();
+  }
+
+  //DELETE A LIKE
+  async deleteLike(idTweet : string){
+    const headerOptions = this.httpOptions.headers.append('Authorization', `Bearer ${this.auth.userToken}`);
+    return this.http.delete<any>(`${environment.API_URL}/tweet/${idTweet}/like`,{
+      headers: headerOptions
+    }).toPromise();
+  }
 }

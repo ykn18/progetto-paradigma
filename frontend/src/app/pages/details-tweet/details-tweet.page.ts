@@ -78,14 +78,14 @@ export class DetailsTweetPage implements OnInit {
     await this.uniLoader.dismiss();
   }
 
-  /*isDataInvalid(): boolean {
+  isDataInvalid(): boolean {
 
     if (this.newComment.tweet) {
         return !this.newComment.tweet.length ||
         this.newComment.tweet.length > 120;
       }
       return true;
-    }*/
+    }
 
   isMyTweet(tweet: Tweet): boolean {
     if (tweet._author) {

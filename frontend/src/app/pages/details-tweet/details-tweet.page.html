@@ -17,7 +17,7 @@
         <ion-label>
           <h2>{{comment.tweet}}</h2>
         
-            <p *ngIf="comment._author; else userDeleted" class="user">
+            <p *ngIf="comment._author; else userDeleted" class="user" [class.me]="isMyTweet(comment)">
             {{ this.getAuthor(comment) }} 
               <ion-icon *ngIf="isMyTweet(comment)" name="heart" color="danger-tint"></ion-icon> 
             </p>
@@ -26,7 +26,7 @@
             </ng-template>
             <ion-icon name="heart" [color]="like_bool ? 'danger' : 'medium'" (click)="onLike()"></ion-icon>
         </ion-label>
-        <ion-note slot="end">{{ comment.created_at}}</ion-note>
+        <ion-note slot="end">{{ comment.created_at | date : 'short'}}</ion-note>
       </ion-item>
     </ion-item-sliding>
   </ion-list>
@@ -36,7 +36,7 @@
   <ion-toolbar>
     <ion-item>
       <ion-textarea placeholder="Enter comment.." [(ngModel)]="newComment.tweet"></ion-textarea>
-      <ion-button expand="full" (click)="commentTweet()">
+      <ion-button expand="full" [disabled]="isDataInvalid()" (click)="commentTweet()">
         <ion-icon slot="icon-only" name="send"></ion-icon>
       </ion-button>
     </ion-item>

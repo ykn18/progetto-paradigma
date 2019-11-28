@@ -28,7 +28,7 @@
           &nbsp;
           <ion-icon name="star" [color]="like_bool ? 'warning' : 'medium'" ></ion-icon>
         </ion-label>
-        <ion-note slot="end">{{ tweet.created_at | unictDate: 1 }}</ion-note>
+        <ion-note slot="end">{{ tweet.created_at | date : 'short' }}</ion-note>
       </ion-item>
   
       <ion-item-options *ngIf="canEdit(tweet); else otherTweets" side="end">
