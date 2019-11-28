@@ -8,6 +8,7 @@ const cors = require("cors")
 const indexRouter = require('./routes/index');
 const userRouter = require('./routes/users');
 const tweetRouter = require('./routes/tweets');
+const favoriteRouter = require('./routes/favorites');
 
 // Database configuration
 const host = 'localhost';
@@ -46,6 +47,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', userRouter);
 app.use('/tweets', tweetRouter);
+app.use('/favorites', favoriteRouter);
 
 // Catch 404 errors
 app.use(function(req, res, next) {

@@ -9,7 +9,7 @@ const { checkValidation } = require('../middlewares/validation');
 
 router.get('/', function(req, res, next) {
   Tweet.find({parent:{$exists:false}}).populate("_author", "-password")
-  .populate("likes ", "-password").exec(function(err, tweets){
+  .populate("likes", "-password").exec(function(err, tweets){
     if (err) return res.status(500).json({error: err});
     res.json(tweets);
   });
@@ -162,12 +162,6 @@ router.post('/:id/like',autenticationMiddleware.isAuth, checkValidation, functio
         message: "Tweet not found"
       })
     }
-    if (tweet._author.toString() !== res.locals.authInfo.userId) {
-      return res.status(401).json({
-        error: "Unauthorized",
-        message: "You are not the owner of the resource"
-      });
-    }
     Tweet.findOneAndUpdate({_id:req.params.id}, {$addToSet:{likes:res.locals.authInfo.userId}}).exec(function(err, r){
       res.status(201).json({"msg":"done"});
     })
@@ -187,12 +181,6 @@ router.delete('/:id/like',autenticationMiddleware.isAuth, checkValidation, funct
       return res.status(404).json({
         message: "Tweet not found"
       })
-    }
-    if (tweet._author.toString() !== res.locals.authInfo.userId) {
-      return res.status(401).json({
-        error: "Unauthorized",
-        message: "You are not the owner of the resource"
-      });
     }
     Tweet.updateOne({_id:req.params.id}, {$pull:{likes:res.locals.authInfo.userId}}).exec(function(err, r){
       res.status(201).json({"msg":"done"});

@@ -8,7 +8,6 @@ import { AuthService } from '../auth/auth.service';
   providedIn: 'root'
 })
 export class TweetsService {
-
   // Http Options
   httpOptions = {
     headers: new HttpHeaders({
