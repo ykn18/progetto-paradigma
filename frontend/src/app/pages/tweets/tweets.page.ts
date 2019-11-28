@@ -210,6 +210,12 @@ export class TweetsPage implements OnInit {
   }
 
   async filter(){
-    await this.tweetsService.getHashtags(this.search);
+    if (this.search.length >= 3)
+    {
+      this.tweets = await this.tweetsService.getHashtags(this.search);
+    }
+    else if (this.search == ""){
+      this.tweets = await this.tweetsService.getTweets();
+    }
   }
 }
