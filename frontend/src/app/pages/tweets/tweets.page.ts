@@ -7,7 +7,6 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { UniLoaderService } from 'src/app/shared/uniLoader.service';
 import { ToastService } from 'src/app/shared/toast.service';
 import { ToastTypes } from 'src/app/enums/toast-types.enum';
-import { NewCommentPage } from '../new-comment/new-comment.page';
 import { DetailsTweetPage } from '../details-tweet/details-tweet.page';
 
 @Component({

@@ -18,7 +18,7 @@
           <h2>{{comment.tweet}}</h2>
         
             <p *ngIf="comment._author; else userDeleted" class="user">
-            {{ getAuthor(comment) }} 
+            {{ this.getAuthor(comment) }} 
               <ion-icon *ngIf="isMyTweet(comment)" name="heart" color="danger-tint"></ion-icon> 
             </p>
             <ng-template #userDeleted>
@@ -36,7 +36,7 @@
   <ion-toolbar>
     <ion-item>
       <ion-textarea placeholder="Enter comment.." [(ngModel)]="newComment.tweet"></ion-textarea>
-      <ion-button expand="full" [disabled]="isDataInvalid()" (click)="commentTweet()">
+      <ion-button expand="full" (click)="commentTweet()">
         <ion-icon slot="icon-only" name="send"></ion-icon>
       </ion-button>
     </ion-item>
