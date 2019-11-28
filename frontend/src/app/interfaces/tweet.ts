@@ -1,5 +1,4 @@
 import { User } from './user';
-import { Identifiers } from '@angular/compiler';
 
 export interface NewTweet {
     tweet: string;
@@ -12,4 +11,5 @@ export interface Tweet {
     tweet: string;
     _author: User;
     likes: User[];
+    comments: Tweet[];
 }

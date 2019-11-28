@@ -14,7 +14,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
   styleUrls: ['./details-tweet.page.scss'],
 })
 export class DetailsTweetPage implements OnInit {
-  tweets : Tweet[] = [];
+  tweet : Tweet;
   comments: Tweet[] = [];
   like_bool : boolean = true;
   newComment = {} as NewTweet;
@@ -39,11 +39,9 @@ export class DetailsTweetPage implements OnInit {
 
     try {
       await this.uniLoader.show();
-      this.tweets = await this.tweetsService.getComments(this.idParentTweet);
-      this.comments = this.tweets["comments"];
-      console.log(this.tweets)
+      this.tweet = await this.tweetsService.getComments(this.idParentTweet);
+      this.comments = this.tweet.comments;
       await this.uniLoader.dismiss();
-      console.log(this.comments)
 
     } catch (err) {
       await this.toastService.show({
@@ -109,6 +107,17 @@ export class DetailsTweetPage implements OnInit {
 
   onLike() {
     this.like_bool = !this.like_bool;
+  }
+
+  hasLike(tweet: Tweet) {
+    if(tweet.likes.length > 0) {
+      for (let like of tweet.likes) {
+        return (like._id != this.auth.me._id) ? false : true;
+      }
+    }
+    else {
+      return false;
+    }
   }
 
 
