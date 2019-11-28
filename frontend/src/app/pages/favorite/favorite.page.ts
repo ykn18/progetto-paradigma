@@ -24,6 +24,10 @@ export class FavoritePage implements OnInit {
   async ngOnInit() {
     await this.getFavorites()
   }
+  
+  async ionViewWillEnter() {
+    await this.getFavorites()
+  }
 
   async getFavorites(){
     try{
@@ -35,6 +39,26 @@ export class FavoritePage implements OnInit {
       message: err.message,
       type: ToastTypes.ERROR
       });
+    }
+  }
+
+  canEdit(tweet: Tweet): boolean {
+
+    // Controllo che l'autore del tweet coincida col mio utente
+    if (tweet._author) {
+      return tweet._author._id === this.auth.me._id;
+    }
+
+    return false;
+
+  }
+
+  getAuthor(tweet: Tweet): string {
+
+    if (this.canEdit(tweet)) {
+      return 'You';
+    } else {
+      return tweet._author.name + ' ' + tweet._author.surname;
     }
   }
 } 
