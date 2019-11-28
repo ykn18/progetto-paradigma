@@ -9,7 +9,7 @@ const { checkValidation } = require('../middlewares/validation');
 
 router.get('/', function(req, res, next) {
   Tweet.find({parent:{$exists:false}}).populate("_author", "-password")
-  .populate("likes ", "-password").exec(function(err, tweets){
+  .populate("likes", "-password").exec(function(err, tweets){
     if (err) return res.status(500).json({error: err});
     res.json(tweets);
   });

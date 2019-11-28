@@ -154,7 +154,6 @@ export class TweetsPage implements OnInit {
 
   }
 
-
   async showDetails(tweet: Tweet) {
 
     const modal = await this.modalCtrl.create({
@@ -175,9 +174,20 @@ export class TweetsPage implements OnInit {
     return await modal.present();
   }
 
-  onLike(){
-    this.like_bool = !this.like_bool;
+  getLikes(tweet: Tweet) {
+    return tweet.likes.length;
   }
 
+  hasLike(tweet: Tweet) {
+    return tweet.likes.includes(this.auth.me._id);
+  }
 
+  onLike(tweet: Tweet) {
+    if(!tweet.likes.includes(this.auth.me._id)) {
+      this.tweetsService.postLike(tweet._id);
+    }
+    else {
+      this.tweetsService.deleteLike(tweet._id);
+    }
+  }
 }
