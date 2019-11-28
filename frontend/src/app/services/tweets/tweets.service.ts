@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Tweet, NewTweet, Like } from 'src/app/interfaces/tweet';
+import { Tweet, NewTweet} from 'src/app/interfaces/tweet';
 import { AuthService } from '../auth/auth.service';
 
 @Injectable({
@@ -69,7 +69,7 @@ export class TweetsService {
   //PUSH A LIKE
   async postLike(idTweet: string){
     const headerOptions = this.httpOptions.headers.append('Authorization', `Bearer ${this.auth.userToken}`);
-    return this.http.post<any>(`${environment.API_URL}/tweet/${idTweet}/like`,{
+    return this.http.post<any>(`${environment.API_URL}/tweets/${idTweet}/like`,{
       headers: headerOptions
     }).toPromise();
   }
@@ -77,8 +77,33 @@ export class TweetsService {
   //DELETE A LIKE
   async deleteLike(idTweet : string){
     const headerOptions = this.httpOptions.headers.append('Authorization', `Bearer ${this.auth.userToken}`);
-    return this.http.delete<any>(`${environment.API_URL}/tweet/${idTweet}/like`,{
+    return this.http.delete<any>(`${environment.API_URL}/tweets/${idTweet}/like`,{
       headers: headerOptions
     }).toPromise();
   }
+
+    //GET ALL FAVORITES
+  async getFavorites(){
+    const headerOptions = this.httpOptions.headers.append('Authorization', `Bearer ${this.auth.userToken}`);
+      return this.http.get<Tweet[]>(`${environment.API_URL}/favorites`,{
+      headers: headerOptions
+      }).toPromise();
+      }
+
+  //ADD TWEET TO FAVORITES
+  async addFavorite(idTweet : string){
+    const headerOptions = this.httpOptions.headers.append('Authorization', `Bearer ${this.auth.userToken}`);
+    return this.http.post<any>(`${environment.API_URL}/favorites/${idTweet}`,{
+      headers: headerOptions
+    }).toPromise();
+  }
+
+  //DELETE TWEET FROM FAVORITES
+  async deleteFavorite(idTweet : string){
+    const headerOptions = this.httpOptions.headers.append('Authorization', `Bearer ${this.auth.userToken}`);
+    return this.http.delete<any>(`${environment.API_URL}/favorites/${idTweet}`,{
+      headers: headerOptions
+    }).toPromise();
+  }
+
 }

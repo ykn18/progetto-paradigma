@@ -28,12 +28,12 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'extra',
+        path: 'favorite',
         children: [
           {
             path: '',
             loadChildren: () =>
-              import('../extra/extra.module').then(m => m.ExtraPageModule)
+              import('../favorite/favorite.module').then(m => m.FavoritePageModule)
           }
         ]
       },
