@@ -107,8 +107,7 @@ export class DetailsTweetPage implements OnInit {
     }
   }
 
-
-  onLike(){
+  onLike() {
     this.like_bool = !this.like_bool;
   }
 
