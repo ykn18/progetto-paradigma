@@ -28,9 +28,10 @@
             <ion-icon name="heart" [color]="hasLike(tweet) ? 'danger' : 'medium'"></ion-icon>
             &nbsp;{{ getLikes(tweet) }}
           </ion-button>
-          <ion-button >
-            <ion-icon name="star" [color]="hasPrefer(tweet) ? 'warning' : 'medium'" ></ion-icon>
+          <ion-button (click)="onPrefer(tweet)">
+            <ion-icon name="star" [color]="hasPrefer(tweet) ? 'warning' : 'medium'"></ion-icon>
           </ion-button>
+      
         </ion-label>
         <ion-note slot="end">{{ tweet.created_at | date : 'short' }}</ion-note>
       </ion-item>
