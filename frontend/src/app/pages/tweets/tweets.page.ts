@@ -15,7 +15,7 @@ import { DetailsTweetPage } from '../details-tweet/details-tweet.page';
   styleUrls: ['./tweets.page.scss'],
 })
 export class TweetsPage implements OnInit {
-
+  favoritiesTweet : Tweet[];
   tweets: Tweet[] = [];
   like_bool : boolean = false;
 
@@ -31,6 +31,7 @@ export class TweetsPage implements OnInit {
 
     // Quando carico la pagina, riempio il mio array di Tweets
     await this.getTweets();
+    this.favoritiesTweet =  await this.tweetsService.getFavorites();
 
   }
 
@@ -207,4 +208,15 @@ export class TweetsPage implements OnInit {
     }
     await this.getTweets();
   }
+
+  async hasPrefer(tweet : Tweet){    
+    for (let favorite of  this.favoritiesTweet){
+      if(favorite._id == tweet._id){
+        return true;
+      }
+    }
+    return false;
+
+  }
+
 }

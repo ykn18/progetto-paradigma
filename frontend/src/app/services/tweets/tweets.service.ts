@@ -52,7 +52,7 @@ export class TweetsService {
   // CREATE COMMENT
   async createComment(newComment: NewTweet) {
     const headerOptions = this.httpOptions.headers.append('Authorization', `Bearer ${this.auth.userToken}`);
-    return this.http.post<Tweet>(`${environment.API_URL}/tweets/`, newComment, {
+    return this.http.post<Tweet>(`${environment.API_URL}/tweets/  `, newComment, {
       headers: headerOptions
     }).toPromise();
   }
