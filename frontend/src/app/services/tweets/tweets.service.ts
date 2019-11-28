@@ -60,7 +60,7 @@ export class TweetsService {
   //GET ALL COMMENTS
   async getComments(idTweet : string) {
     const headerOptions = this.httpOptions.headers.append('Authorization', `Bearer ${this.auth.userToken}`);
-    return this.http.get<Tweet[]>(`${environment.API_URL}/tweets/${idTweet}`, {
+    return this.http.get<Tweet>(`${environment.API_URL}/tweets/${idTweet}`, {
       headers: headerOptions
     }).toPromise();
     }
@@ -84,15 +84,15 @@ export class TweetsService {
     //GET ALL FAVORITES
   async getFavorites() {
     const headerOptions = this.httpOptions.headers.append('Authorization', `Bearer ${this.auth.userToken}`);
-      return this.http.get<Tweet[]>(`${environment.API_URL}/favorites`, {
+    return this.http.get<Tweet[]>(`${environment.API_URL}/favorites`, {
       headers: headerOptions
-      }).toPromise();
-      }
+    }).toPromise();
+  }
 
   //ADD TWEET TO FAVORITES
   async addFavorite(idTweet : string) {
     const headerOptions = this.httpOptions.headers.append('Authorization', `Bearer ${this.auth.userToken}`);
-    return this.http.post<any>(`${environment.API_URL}/favorites/${idTweet}`, {
+    return this.http.post<any>(`${environment.API_URL}/favorites/${idTweet}`,{},{
       headers: headerOptions
     }).toPromise();
   }
