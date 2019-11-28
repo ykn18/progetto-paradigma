@@ -15,7 +15,7 @@ import { DetailsTweetPage } from '../details-tweet/details-tweet.page';
   styleUrls: ['./tweets.page.scss'],
 })
 export class TweetsPage implements OnInit {
-
+  favoritiesTweet : Tweet[];
   tweets: Tweet[] = [];
   like_bool : boolean = false;
   search : string = "";
@@ -44,6 +44,7 @@ export class TweetsPage implements OnInit {
 
       // Popolo il mio array di oggetti 'Tweet' con quanto restituito dalla chiamata API
       this.tweets = await this.tweetsService.getTweets();
+      this.favoritiesTweet =  await this.tweetsService.getFavorites();
 
       // La chiamata è andata a buon fine, dunque rimuovo il loader
       await this.uniLoader.dismiss();
@@ -209,6 +210,7 @@ export class TweetsPage implements OnInit {
     await this.getTweets();
   }
 
+<<<<<<< HEAD
   async filter(){
     if (this.search.length >= 3)
     {
@@ -218,4 +220,15 @@ export class TweetsPage implements OnInit {
       this.tweets = await this.tweetsService.getTweets();
     }
   }
+=======
+  hasPrefer(tweet : Tweet){    
+    for (let favorite of  this.favoritiesTweet){
+      if(favorite._id == tweet._id){
+        return true;
+      }
+    }
+    return false;
+  }
+
+>>>>>>> e05e6d69ffd20e8438d9a8e3434f4eec5888d32f
 }

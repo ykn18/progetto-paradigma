@@ -28,7 +28,10 @@
             <ion-icon name="heart" [color]="hasLike(tweet) ? 'danger' : 'medium'"></ion-icon>
             &nbsp;{{ getLikes(tweet) }}
           </ion-button>
-          <ion-icon name="star" [color]="like_bool ? 'warning' : 'medium'" ></ion-icon>
+          <ion-button (click)="onPrefer(tweet)">
+            <ion-icon name="star" [color]="hasPrefer(tweet) ? 'warning' : 'medium'"></ion-icon>
+          </ion-button>
+      
         </ion-label>
         <ion-note slot="end">{{ tweet.created_at | date : 'short' }}</ion-note>
       </ion-item>
@@ -37,6 +40,9 @@
         <ion-item-option color="secondary" (click)="createOrEditTweet(tweet)">
           <ion-icon slot="icon-only" name="create"></ion-icon>
         </ion-item-option>
+          <ion-item-option color="primary" (click)="showDetails(tweet)">
+            <ion-icon slot="icon-only" name="chatboxes" ></ion-icon>
+          </ion-item-option>
         <ion-item-option color="danger" (click)="deleteTweet(tweet)">
           <ion-icon slot="icon-only" name="trash"></ion-icon>
         </ion-item-option>
