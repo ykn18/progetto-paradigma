@@ -18,6 +18,7 @@ export class TweetsPage implements OnInit {
 
   tweets: Tweet[] = [];
   like_bool : boolean = false;
+  search : string = "";
 
   constructor(
     private tweetsService: TweetsService,
@@ -189,5 +190,9 @@ export class TweetsPage implements OnInit {
     else {
       this.tweetsService.deleteLike(tweet._id);
     }
+  }
+
+  async filter(){
+    await this.tweetsService.getHashtags(this.search);
   }
 }

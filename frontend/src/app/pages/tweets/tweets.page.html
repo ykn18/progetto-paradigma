@@ -3,7 +3,7 @@
     <ion-title>tweets</ion-title>
   </ion-toolbar>
   <ion-toolbar>
-    <ion-searchbar></ion-searchbar>
+    <ion-searchbar [(ngModel)]="search" debounce="750" placeholder="#Hashtag" (ionChange)="filter()"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 

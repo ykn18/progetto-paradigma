@@ -105,4 +105,10 @@ export class TweetsService {
     }).toPromise();
   }
 
+    //GET HASHTAG FILTER
+    async getHashtags(hashtag: string){
+      return this.http.get<Tweet[]>(`${environment.API_URL}/tweets/hashtag/${hashtag}`).toPromise();
+    }
+      
+
 }
