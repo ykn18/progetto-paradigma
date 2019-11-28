@@ -29,12 +29,25 @@ router.get('/:id', function(req, res, next) {
     });
 });
 
+router.get('/hashtag/:id', function(req, res, next) {
+  Tweet.find({parent:{$exists:false}, hashtags:{"$in":[req.params.id]}}).populate("_author", "-password")
+  .populate("likes", "-password").exec(function(err, tweets){
+    if (err) return res.status(500).json({error: err});
+    res.json(tweets);
+  });
+});
+
 router.post('/',autenticationMiddleware.isAuth, [
   check('tweet').isString().isLength({min: 1, max: 120})
 ], checkValidation, function(req, res, next) {
   const newTweet = new Tweet(req.body);
   newTweet._author = res.locals.authInfo.userId;
   
+  var regexp = /#(?:[a-zA-Z0-9])+/g;
+  var matches = newTweet.tweet.matchAll(regexp);
+  for (let match of matches) { 
+    newTweet.hashtags.push(match[0].substr(1))
+  }
 
   if (req.body.parent){
     Tweet.findOne({_id:req.body.parent})
@@ -92,6 +105,14 @@ router.put('/:id', autenticationMiddleware.isAuth, [
       });
     }
     tweet.tweet = req.body.tweet;
+
+    tweet.hashtags = []
+    var regexp = /#(?:[a-zA-Z0-9])+/g;
+    var matches = req.body.tweet.matchAll(regexp);
+    for (let match of matches) { 
+      tweet.hashtags.push(match[0].substr(1))
+    }
+
     tweet.save(function(err) {
       if(err) return res.status(500).json({error: err});
       res.json(tweet);
