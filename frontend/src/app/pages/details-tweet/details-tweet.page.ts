@@ -106,30 +106,23 @@ export class DetailsTweetPage implements OnInit {
   }
 
   hasLike(tweet) {
-    let bool : boolean;
-    if(tweet.likes.length > 0) {
-      for (let like of tweet.likes) {
-        console.log(like)
-        if(like != this.auth.me._id){
-          bool = false;
-        }else{
-          return true;
+    let found = true;
+    if (tweet.likes.length > 0) {
+      for (let user_id of tweet.likes) {
+        if (user_id == this.auth.me._id) {
+          return found;
         }
       }
-      return bool;
     }
-    else {
-      return false;
-    }
+    return !found;
   }
 
   async onLike(tweet){
-    console.log("onlike")
     if (this.hasLike(tweet)){
-      this.tweetsService.deleteLike(tweet._id);
+      await this.tweetsService.deleteLike(tweet._id);
     }
     else{
-      this.tweetsService.postLike(tweet._id);
+      await this.tweetsService.postLike(tweet._id);
     }
     await this.getComments();
   }
