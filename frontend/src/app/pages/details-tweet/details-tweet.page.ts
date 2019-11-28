@@ -6,7 +6,7 @@ import { ToastService } from 'src/app/shared/toast.service';
 import { ToastTypes } from 'src/app/enums/toast-types.enum';
 import { UniLoaderService } from 'src/app/shared/uniLoader.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { User } from 'src/app/interfaces/user';
+
 
 @Component({
   selector: 'app-details-tweet',
@@ -14,11 +14,8 @@ import { User } from 'src/app/interfaces/user';
   styleUrls: ['./details-tweet.page.scss'],
 })
 export class DetailsTweetPage implements OnInit {
-  user : User = {"name" : "giorgio", "email" : "gg@g.it", "surname" : "marl"};
-  comment1 : Tweet = {"_author" : this.user, "_id" : "22", "created_at" : "21:02.12", "tweet":"bel tweet"};
-  comment2 : Tweet = {"_author" : this.user, "_id" : "22", "created_at" : "21:02.12", "tweet":"bel tweet"};
-  comment3 : Tweet = {"_author" : this.user, "_id" : "22", "created_at" : "21:02.12", "tweet":"bel tweet"};
-  comments: Tweet[] = [this.comment1, this.comment2, this.comment3];
+  tweets : Tweet[] = [];
+  comments: Tweet[] = [];
   like_bool : boolean = true;
   newComment = {} as NewTweet;
   idParentTweet : string;
@@ -32,9 +29,29 @@ export class DetailsTweetPage implements OnInit {
     private auth: AuthService
     ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     const tweet : Tweet = this.navParams.get('tweet');
     this.idParentTweet = tweet._id;
+    await this.getComments(); 
+  }
+
+  async getComments() {
+
+    try {
+      await this.uniLoader.show();
+      this.tweets = await this.tweetsService.getComments(this.idParentTweet);
+      this.comments = this.tweets["comments"];
+      console.log(this.tweets)
+      await this.uniLoader.dismiss();
+      console.log(this.comments)
+
+    } catch (err) {
+      await this.toastService.show({
+        message: err.message,
+        type: ToastTypes.ERROR
+      });
+
+    }
   }
 
 
@@ -47,7 +64,8 @@ export class DetailsTweetPage implements OnInit {
     try {
 
       await this.uniLoader.show();
-      this.newComment.parent_id = this.idParentTweet;
+      this.newComment.parent = this.idParentTweet;
+      console.log(this.newComment)
       await this.tweetsService.createComment(this.newComment);
       await this.dismiss();
     } catch (err) {
@@ -60,14 +78,14 @@ export class DetailsTweetPage implements OnInit {
     await this.uniLoader.dismiss();
   }
 
-  isDataInvalid(): boolean {
+  /*isDataInvalid(): boolean {
 
     if (this.newComment.tweet) {
         return !this.newComment.tweet.length ||
         this.newComment.tweet.length > 120;
       }
       return true;
-    }
+    }*/
 
   isMyTweet(tweet: Tweet): boolean {
     if (tweet._author) {
@@ -81,8 +99,10 @@ export class DetailsTweetPage implements OnInit {
   getAuthor(tweet: Tweet): string {
 
     if (this.isMyTweet(tweet)) {
+      console.log("you");
       return 'You';
     } else {
+      console.log("else");
       return tweet._author.name + ' ' + tweet._author.surname;
     }
   }

@@ -50,12 +50,17 @@ export class TweetsService {
     }).toPromise();
   }
 
-
+  // CREATE COMMENT
   async createComment(newComment: NewTweet) {
     const headerOptions = this.httpOptions.headers.append('Authorization', `Bearer ${this.auth.userToken}`);
     return this.http.post<Tweet>(`${environment.API_URL}/tweets/`, newComment, {
       headers: headerOptions
     }).toPromise();
   }
+
+  //GET ALL COMMENTS
+  async getComments(idTweet){
+    return this.http.get<Tweet[]>(`${environment.API_URL}/tweets/${idTweet}`).toPromise();
+    }
 
 }
