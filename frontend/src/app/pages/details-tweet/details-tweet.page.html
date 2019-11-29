@@ -26,8 +26,7 @@
           <h2>{{ comment.tweet }}</h2>
         
             <p *ngIf="comment._author; else userDeleted" class="user" [class.me]="isMyTweet(comment)">
-            {{ getAuthor(comment) }} 
-              <ion-icon *ngIf="isMyTweet(comment)" name="heart" color="danger-tint"></ion-icon> 
+            {{ getAuthor(comment) }}
             </p>
             <ng-template #userDeleted>
               <p class="user-deleted">User deleted</p>
