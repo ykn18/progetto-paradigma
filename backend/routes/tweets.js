@@ -107,6 +107,7 @@ router.put('/:id', autenticationMiddleware.isAuth, [
     }
     tweet.tweet = req.body.tweet;
 
+    tweet.hashtags = []
     var regexp = /#(?:[a-zA-Z0-9])+/g;
     matches = req.body.tweet.match(regexp)
     if (matches){
