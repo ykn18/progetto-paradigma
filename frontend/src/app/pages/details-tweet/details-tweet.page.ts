@@ -127,4 +127,28 @@ export class DetailsTweetPage implements OnInit {
     await this.getComments();
   }
 
+  async deleteComment(comment: Tweet) {
+
+    try {
+
+      await this.uniLoader.show();
+      await this.tweetsService.deleteComment(comment._id);
+      await this.getComments();
+
+      await this.toastService.show({
+        message: 'Your comment was deleted successfully!',
+        type: ToastTypes.SUCCESS
+      });
+
+    } catch (err) {
+
+      await this.toastService.show({
+        message: err.message,
+        type: ToastTypes.ERROR
+      });
+
+    }
+    await this.uniLoader.dismiss();
+  }
+
 }

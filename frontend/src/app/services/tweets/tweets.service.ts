@@ -63,7 +63,15 @@ export class TweetsService {
     return this.http.get<Tweet>(`${environment.API_URL}/tweets/${idTweet}`, {
       headers: headerOptions
     }).toPromise();
-    }
+  }
+
+  //DELETE A COMMENT
+  async deleteComment(idComment : string) {
+    const headerOptions = this.httpOptions.headers.append('Authorization', `Bearer ${this.auth.userToken}`);
+    return this.http.delete<any>(`${environment.API_URL}/tweets/${idComment}`, {
+      headers: headerOptions
+    }).toPromise();
+  }
 
   //PUSH A LIKE
   async postLike(idTweet: string) {
