@@ -30,7 +30,8 @@ router.get('/:id', function(req, res, next) {
 });
 
 router.get('/hashtag/:id', function(req, res, next) {
-  Tweet.find({parent:{$exists:false}, hashtags:{"$in":[req.params.id]}}).populate("_author", "-password")
+  var regex = new RegExp("^"+req.params.id);  
+  Tweet.find({parent:{$exists:false}, hashtags:{"$in":[regex]}}).populate("_author", "-password")
   .populate("likes", "-password").exec(function(err, tweets){
     if (err) return res.status(500).json({error: err});
     res.json(tweets);
