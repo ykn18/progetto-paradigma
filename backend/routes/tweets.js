@@ -29,8 +29,8 @@ router.get('/:id', function(req, res, next) {
     });
 });
 
-router.get('/hashtag/:id', function(req, res, next) {
-  var regex = new RegExp("^"+req.params.id);  
+router.get('/hashtag/:tag', function(req, res, next) {
+  var regex = new RegExp("^"+req.params.tag);  
   Tweet.find({parent:{$exists:false}, hashtags:{"$in":[regex]}}).populate("_author", "-password")
   .populate("likes", "-password").exec(function(err, tweets){
     if (err) return res.status(500).json({error: err});
@@ -48,7 +48,7 @@ router.post('/',autenticationMiddleware.isAuth, [
   matches = newTweet.tweet.match(regexp)
   if (matches){
   newTweet.hashtags = matches.map(x => x.substr(1));
-}  
+  }  
 
    
   if (req.body.parent){
