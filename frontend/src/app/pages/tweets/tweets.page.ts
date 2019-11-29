@@ -181,15 +181,14 @@ export class TweetsPage implements OnInit {
   }
 
   hasLike(tweet) {
-    let found = true;
     if (tweet.likes.length > 0) {
       for (let user of tweet.likes) {
         if (user._id == this.auth.me._id) {
-          return found;
+          return true;
         }
       }
     }
-    return !found;
+    return false;
   }
 
   async onLike(tweet) {
